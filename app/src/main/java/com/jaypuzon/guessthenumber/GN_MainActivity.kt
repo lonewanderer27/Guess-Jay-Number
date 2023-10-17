@@ -2,13 +2,14 @@ package com.jaypuzon.guessthenumber
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 
 class GN_MainActivity : AppCompatActivity() {
-    private var SubmitBtn: Button? = null
+    private var GuessBtn: Button? = null
     private var ResetBtn: Button? = null
     private var UserGuess: EditText? = null
     private var Attempts: TextView? = null
@@ -21,14 +22,14 @@ class GN_MainActivity : AppCompatActivity() {
         setContentView(R.layout.gn_activity_main)
 
         // assign the variables to the UI elements
-        SubmitBtn = findViewById(R.id.SubmitButton)
+        GuessBtn = findViewById(R.id.GuessButton)
         ResetBtn = findViewById(R.id.ResetButton)
         UserGuess = findViewById(R.id.UserGuess)
         CorrectGuess = findViewById(R.id.CorrectGuess)
         Attempts = findViewById(R.id.Attempts)
 
         // set the click listener
-        SubmitBtn!!.setOnClickListener() {
+        GuessBtn!!.setOnClickListener() {
             Guess()
         }
 
@@ -53,7 +54,8 @@ class GN_MainActivity : AppCompatActivity() {
         }
 
         val userGuess = userGuessStr.toInt()
-
+        Log.i("userGuess", userGuess.toString())
+        Log.i("correctGuess", correctGuess.toString())
         // check if the user guess is correct
         if (userGuess == correctGuess) {
             // if the user guess is correct, display the correct guess
@@ -62,14 +64,7 @@ class GN_MainActivity : AppCompatActivity() {
             // display a toast
             Toast.makeText(this, "Correct!", Toast.LENGTH_LONG).show()
 
-            // disable submit button
-            SubmitBtn!!.isEnabled = false
-
-            // disable user guess edit text
-            UserGuess!!.isEnabled = false
-
-            // enable reset button
-            ResetBtn!!.isEnabled = true
+            DisableInput()
         } else {
             // if the user guess is wrong, display a toast as a hint
             if (userGuess > correctGuess!!)
@@ -86,14 +81,7 @@ class GN_MainActivity : AppCompatActivity() {
             // display the correct guess
             CorrectGuess!!.text = "Correct Guess: " + correctGuess.toString()
 
-            // disable submit button
-            SubmitBtn!!.isEnabled = false
-
-            // disable user guess edit text
-            UserGuess!!.isEnabled = false
-
-            // enable reset button
-            ResetBtn!!.isEnabled = true
+            DisableInput()
         }
     }
 
@@ -120,10 +108,21 @@ class GN_MainActivity : AppCompatActivity() {
         // disable reset button
         ResetBtn!!.isEnabled = false
 
-        // enable submit button
-        SubmitBtn!!.isEnabled = true
+        // enable guess button
+        GuessBtn!!.isEnabled = true
 
         // enable user guess edit text
         UserGuess!!.isEnabled = true
+    }
+
+    fun DisableInput() {
+        // disable guess button
+        GuessBtn!!.isEnabled = false
+
+        // disable user guess edit text
+        UserGuess!!.isEnabled = false
+
+        // enable reset button
+        ResetBtn!!.isEnabled = true
     }
 }
